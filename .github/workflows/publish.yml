@@ -24,6 +24,10 @@ on:
         description: "Override version (optional)"
         required: false
         type: string
+      release_notes:
+        description: "Reviewed V2 release notes for the Discord announcement (optional)"
+        required: false
+        type: string
 
 concurrency: ${{ github.workflow }}-${{ github.ref }}-${{ (github.ref_name == 'v2' && (inputs.version || inputs.bump) && 'release') || inputs.version || inputs.bump }}
 
@@ -667,5 +671,5 @@ jobs:
         with:
           webhook_url: ${{ secrets.DISCORD_WEBHOOK }}
           release_name: OpenCode V2 ${{ needs.version.outputs.tag }}
-          release_body: The stable OpenCode V2 release is available.
+          release_body: ${{ inputs.release_notes }}
           release_html_url: https://github.com/${{ github.repository }}/tree/${{ needs.version.outputs.tag }}
